@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Avatar, Card, Text } from 'react-native-paper'
-import ApiFilmes from '../services/ApiFilmes'
+import { Avatar, Card, IconButton, Text } from 'react-native-paper'
+import ApiFilmes from '../../services/ApiFilmes'
 import { ScrollView, View } from 'react-native'
 
-const FilmesDetalhes = ({ route }) => {
+const FilmesDetalhes = ({ navigation,route }) => {
 
     const id = route.params.id
     const [filme, setFilme] = useState({})
@@ -13,9 +13,7 @@ const FilmesDetalhes = ({ route }) => {
         ApiFilmes.get('movie/' + id + '?language=pt-BR').then(resultado => {
             setFilme(resultado.data)
         })
-    }, [])
-
-    useEffect(()=>{
+    
 
         ApiFilmes.get('movie/' + id + '/credits').then(resultado => {
             setAtores(resultado.data.cast)
@@ -31,22 +29,25 @@ const FilmesDetalhes = ({ route }) => {
                     <Text>{filme.overview}</Text>
                 </Card.Content>
             </Card>
-            <Card>
+            <Card style={{ margin: 5 }}>
             <Card.Content>
-                <Text>Orçamento:{filme.revenue}</Text>
-                <Text>Voto:{filme.vote_average}</Text>
-                <Text>Duração:{filme.runtime}</Text>
-                <Text>Lançamento:{filme.release_date}</Text>
+                <Text>Orçamento: {filme.revenue}</Text>
+                <Text>Voto: {filme.vote_average}</Text>
+                <Text>Duração: {filme.runtime}min</Text>
+                <Text>Lançamento: {filme.release_date}</Text>
             </Card.Content>
             </Card>
             <Text style={{ margin: 5 }}>Atores</Text>
 
             {atores.map(item=>(
-                 <Card style={{ margin: 5 }} key={item.id}>
+                 <Card style={{ margin: 5 }} key={item.id}
+                 onPress={() => navigation.push('Ator', { id: item.id })}
+                 >
                  <Card.Title
                      title={item.character}
                      subtitle={item.name}
                      left={(props) => <Avatar.Image size={44} source={'http://image.tmdb.org/t/p/w500/'+ item.profile_path} />}
+                     right={(props) => <IconButton {...props} icon="greater-than"/>}
                  />
              </Card>
                 
