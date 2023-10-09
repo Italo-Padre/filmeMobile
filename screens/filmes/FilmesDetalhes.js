@@ -46,7 +46,7 @@ const FilmesDetalhes = ({ navigation,route }) => {
                  <Card.Title
                      title={item.character}
                      subtitle={item.name}
-                     left={(props) => <Avatar.Image size={44} source={'http://image.tmdb.org/t/p/w500/'+ item.profile_path} />}
+                     left={(props) => <Avatar.Image size={44} source={{uri:'http://image.tmdb.org/t/p/w500/'+ item.profile_path}} />}
                      right={(props) => <IconButton {...props} icon="greater-than"/>}
                  />
              </Card>
